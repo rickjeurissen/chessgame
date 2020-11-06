@@ -15,7 +15,7 @@ namespace chessgame.console
             Console.WriteLine("============ Welcome to chessgame! ============");
             Console.WriteLine("");
             Console.WriteLine("The units of Player 1 are uppercase letters.");
-            Console.WriteLine("The units of Player 2 are lowercase letters.");
+            Console.WriteLine("The units of Player 2 are lowecase letters.");
             Console.WriteLine("Each character represents the following unit:");
             Console.WriteLine("  R: Rook");
             Console.WriteLine("  H: Horse");
