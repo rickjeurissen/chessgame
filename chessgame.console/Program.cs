@@ -28,16 +28,18 @@ namespace chessgame.console
             Console.WriteLine("===============================================");
             Console.WriteLine("");
 
+            Board board = new Board();
+            board.InitializeGame();
+            Console.WriteLine(board);
+            Console.WriteLine("");
+
             while (true)
             {
-                Board board = new Board();
-
-                board.InitializeGame();
-                
+                Console.Write("Move: ");
+                board.MoveUnit(Console.ReadLine().Split());
+                Console.WriteLine("");
                 Console.WriteLine(board);
                 Console.WriteLine("");
-                Console.Write("Player 1's turn. Move: ");
-                Console.ReadLine();
             }
         }
     }

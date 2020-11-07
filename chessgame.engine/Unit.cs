@@ -18,11 +18,22 @@ namespace chessgame.engine
     {
         public string Name { get; set; }
         public string ShortName { get; set; }
-        public List<string> Move { get; set; }
+        public UnitType Type { get; set; }
 
         public override string ToString()
         {
             return ShortName;
         }
+    }
+
+    public enum UnitType
+    {
+        Horse,
+        King,
+        Queen,
+        Rook,
+        Bishop,
+        Pawn,
+        Whitespace
     }
 }

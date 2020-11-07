@@ -13,6 +13,7 @@ namespace chessgame.engine.Logic
             return new Unit()
             {
                 Name = "Pawn",
+                Type = UnitType.Pawn,
                 ShortName = v.ToString()
             };
         }
@@ -22,6 +23,7 @@ namespace chessgame.engine.Logic
             return new Unit()
             {
                 Name = "Rook",
+                Type = UnitType.Rook,
                 ShortName = v.ToString()
             };
         }
@@ -31,6 +33,7 @@ namespace chessgame.engine.Logic
             return new Unit()
             {
                 Name = "Bishop",
+                Type = UnitType.Bishop,
                 ShortName = v.ToString()
             };
         }
@@ -40,6 +43,7 @@ namespace chessgame.engine.Logic
             return new Unit()
             {
                 Name = "Horse",
+                Type = UnitType.Horse,
                 ShortName = v.ToString()
             };
         }
@@ -49,6 +53,7 @@ namespace chessgame.engine.Logic
             return new Unit()
             {
                 Name = "King",
+                Type = UnitType.King,
                 ShortName = v.ToString()
             };
         }
@@ -57,6 +62,7 @@ namespace chessgame.engine.Logic
             return new Unit()
             {
                 Name = "Queen",
+                Type = UnitType.Queen,
                 ShortName = v.ToString()
             };
         }
@@ -66,6 +72,7 @@ namespace chessgame.engine.Logic
             return new Unit()
             {
                 Name = "Air",
+                Type = UnitType.Whitespace,
                 ShortName = v.ToString()
             };
         }
