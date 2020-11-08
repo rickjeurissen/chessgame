@@ -26,6 +26,7 @@ namespace chessgame.engine
      * PARTLY-DONE Calculate if the move-action is allowed
      *  --- e.g. a horse can go from A1 to B3. But A1 to A3 is not allowed because the
      *  --- play-piece on A1 is a horse and has specific move pattern
+     *  --- And a Rook shouldnt be able to go trough another unit
      * - Check if a player is standing 'check'
      * - Check if a player got check-mated
      */
@@ -141,22 +142,23 @@ namespace chessgame.engine
             Tile tileToCheck = TileMatrix[fromTile[0], fromTile[1]];
 
             // Check if this move is within the Unit's move set
+            // TODO: How to make a rook go only direction for unlimited length? 1,3,3 is not valid because it can only be 1,1,1 or 3,3,3 etc
             switch (tileToCheck.Unit.Type)
             {
                 case UnitType.Horse:
                     return UnitMoveRules.GetHorseRules().Contains(moveString);
                 case UnitType.King:
-                    return UnitMoveRules.GetHorseRules().Contains(moveString);
+                    return UnitMoveRules.GetKingRules().Contains(moveString);
                 case UnitType.Queen:
-                    return UnitMoveRules.GetHorseRules().Contains(moveString);
+                    return UnitMoveRules.GetQueenRules().Contains(moveString);
                 case UnitType.Rook:
-                    return UnitMoveRules.GetHorseRules().Contains(moveString);
+                    return UnitMoveRules.GetRookRules().Contains(moveString);
                 case UnitType.Bishop:
-                    return UnitMoveRules.GetHorseRules().Contains(moveString);
+                    return UnitMoveRules.GetBishopRules().Contains(moveString);
                 case UnitType.Pawn:
-                    return UnitMoveRules.GetHorseRules().Contains(moveString);
+                    return UnitMoveRules.GetPawnRules().Contains(moveString);
                 case UnitType.Whitespace:
-                    return UnitMoveRules.GetHorseRules().Contains(moveString);
+                    return false;
                 default:
                     return false;
             }
