@@ -148,15 +148,32 @@ namespace chessgame.engine
                 case UnitType.Horse:
                     return UnitMoveRules.GetHorseRules().Contains(moveString);
                 case UnitType.King:
-                    return UnitMoveRules.GetKingRules().Contains(moveString);
+                    return IsStraightLineAndInRules(UnitMoveRules.GetKingRules(), moveString);
                 case UnitType.Queen:
-                    return UnitMoveRules.GetQueenRules().Contains(moveString);
+                    return IsStraightLineAndInRules(UnitMoveRules.GetQueenRules(), moveString);
                 case UnitType.Rook:
-                    return UnitMoveRules.GetRookRules().Contains(moveString);
+                    //if (UnitMoveRules.GetRookRules().Contains(moveString.Substring(0, 2) + "*"))
+                    //{
+                    //    string[] moveDirections = moveString.Split(',');
+
+                    //    for (int x = 1; x < moveDirections.Length; x++)
+                    //    {
+                    //        if (!moveDirections[x].Equals(moveDirections[x - 1]) && !moveDirections[x].Equals(""))
+                    //        {
+                    //            return false;
+                    //        }
+                    //    }
+
+                    //    return true;
+                    //}
+                    //return UnitMoveRules.GetRookRules().Contains(moveString);
+
+                    return IsStraightLineAndInRules(UnitMoveRules.GetRookRules(), moveString);
                 case UnitType.Bishop:
-                    return UnitMoveRules.GetBishopRules().Contains(moveString);
+
+                    return IsStraightLineAndInRules(UnitMoveRules.GetBishopRules(), moveString);
                 case UnitType.Pawn:
-                    return UnitMoveRules.GetPawnRules().Contains(moveString);
+                    return IsStraightLineAndInRules(UnitMoveRules.GetPawnRules(), moveString);
                 case UnitType.Whitespace:
                     return false;
                 default:
@@ -164,28 +181,88 @@ namespace chessgame.engine
             }
         }
 
+        private bool IsStraightLineAndInRules(List<string> rules, string moveString)
+        {
+            if (rules.Contains(moveString.Substring(0,2) + "*"))
+            {
+                string[] moveDirections = moveString.Split(',');
+
+                for (int x = 1; x < moveDirections.Length; x++)
+                {
+                    if (!moveDirections[x].Equals(moveDirections[x - 1]) && !moveDirections[x].Equals(""))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }  
+            else if (rules.Contains(moveString))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private string CalculateMoveString(int[] fromTile, int[] toTile)
         {
+            // Horse is a problem now, because it goes 1,1,3. 3 is not equal to 1.
             string moveString = String.Empty;
-            // If Y pos of fromTile is bigger than Y pos of to Tile; direction is UP
-            if (fromTile[0] > toTile[0])
+            // If Y pos of fromTile is bigger than Y pos of to Tile AND x pos fromtile equals y pos toTile; direction is UP
+            if (fromTile[0] > toTile[0] && fromTile[1] == toTile[1])
             {
                 for (int y1 = fromTile[0]; y1 > toTile[0]; y1--)
                 {
                     moveString += "1,";
                 }
-            } 
+            }
+            // If y pos of fromTIle is bigger then ypos of toTile AND X pos fromTile  is bigger than X pos toTile, direction is top left
+            if (fromTile[0] > toTile[0] && fromTile[1] > toTile[1])
+            {
+                for (int x1 = fromTile[1]; x1 > toTile[1]; x1--)
+                {
+                    moveString += "8,";
+                }
+            }
+            // If y pos of fromTIle is bigger then ypos of toTile AND X pos fromTile  is less than X pos toTile, direction is top right
+            if (fromTile[0] > toTile[0] && fromTile[1] < toTile[1])
+            {
+                for (int x1 = fromTile[1]; x1 < toTile[1]; x1++)
+                {
+                    moveString += "2,";
+                }
+            }
+
             // If Y pos of fromTile is less than Y pos of toTile; direction is DOWN
-            else if (fromTile[0] < toTile[0])
+            if (fromTile[0] < toTile[0] && fromTile[1] == toTile[1])
             {
                 for (int y1 = fromTile[0]; y1 < toTile[0]; y1++)
                 {
                     moveString += "5,";
                 }
             }
+            // If Y pos of fromTile is less than Y pos of toTile AND x pos fromTIle is bigger than X pos toTile, direction is bottom left
+            if (fromTile[0] < toTile[0] && fromTile[1] > toTile[1])
+            {
+                for (int x1 = fromTile[1]; x1 > toTile[1]; x1--)
+                {
+                    moveString += "6,";
+                }
+            }
+            // If y pos of fromTIle is bigger then ypos of toTile AND X pos fromTile  is less than X pos toTile, direction is bottom right
+            if (fromTile[0] < toTile[0] && fromTile[1] < toTile[1])
+            {
+                for (int x1 = fromTile[1]; x1 < toTile[1]; x1++)
+                {
+                    moveString += "4,";
+                }
+            }
 
             // If X pos of fromTile is bigger than X pos of toTile; direction is RIGHT
-            if (fromTile[1] < toTile[1])
+            if (fromTile[1] < toTile[1] && fromTile[0] == toTile[0])
             {
                 for (int x1 = fromTile[1]; x1 < toTile[1]; x1++)
                 {
@@ -194,7 +271,7 @@ namespace chessgame.engine
             }
 
             // If x pos of fromTile is less than X pos of toTile; direction is LEFT
-            if (fromTile[1] > toTile[1])
+            if (fromTile[1] > toTile[1] && fromTile[0] == toTile[0])
             {
                 for (int x1 = fromTile[1]; x1 > toTile[1]; x1--)
                 {
