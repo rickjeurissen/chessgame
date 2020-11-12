@@ -17,10 +17,10 @@ namespace chessgame.engine.Logic
         {
             List<string> horseRules = new List<string>();
 
-            horseRules.Add("1,1,3,"); horseRules.Add("1,1,7,");
-            horseRules.Add("1,3,3,"); horseRules.Add("5,3,3,");
-            horseRules.Add("5,5,7,"); horseRules.Add("5,5,3,");
-            horseRules.Add("1,7,7,"); horseRules.Add("5,7,7,");
+            horseRules.Add("2,1,"); horseRules.Add("8,1,");
+            horseRules.Add("2,2,5,"); horseRules.Add("4,4,1,");
+            horseRules.Add("4,5,"); horseRules.Add("6,5,");
+            horseRules.Add("6,6,1,"); horseRules.Add("8,8,5,");
 
             return horseRules;
         }

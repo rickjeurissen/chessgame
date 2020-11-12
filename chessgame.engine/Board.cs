@@ -136,13 +136,10 @@ namespace chessgame.engine
             // Calculate the move string from fromTile and toTile
             string moveString = CalculateMoveString(fromTile, toTile);
 
-            //Console.WriteLine(moveString);
-
             // Get the fromTile
             Tile tileToCheck = TileMatrix[fromTile[0], fromTile[1]];
 
             // Check if this move is within the Unit's move set
-            // TODO: Horse is the last piece left.
             switch (tileToCheck.Unit.Type)
             {
                 case UnitType.Horse:
@@ -192,15 +189,9 @@ namespace chessgame.engine
 
         private string CalculateMoveString(int[] fromTile, int[] toTile)
         {
-            //
-
             int[] localFromTile = (int[])fromTile.Clone();
             int[] localToTile = (int[])toTile.Clone();
 
-
-            // Moves are cut short because after every moveString append the first if statement should have been checked again.
-
-            // Horse is a problem now, because it goes 1,1,3. 3 is not equal to 1.
             string moveString = String.Empty;
 
             while(true)
