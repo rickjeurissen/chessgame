@@ -142,7 +142,7 @@ namespace chessgame.engine
             Tile tileToCheck = TileMatrix[fromTile[0], fromTile[1]];
 
             // Check if this move is within the Unit's move set
-            // TODO: How to make a rook go only direction for unlimited length? 1,3,3 is not valid because it can only be 1,1,1 or 3,3,3 etc
+            // TODO: Horse is the last piece left.
             switch (tileToCheck.Unit.Type)
             {
                 case UnitType.Horse:
@@ -152,25 +152,8 @@ namespace chessgame.engine
                 case UnitType.Queen:
                     return IsStraightLineAndInRules(UnitMoveRules.GetQueenRules(), moveString);
                 case UnitType.Rook:
-                    //if (UnitMoveRules.GetRookRules().Contains(moveString.Substring(0, 2) + "*"))
-                    //{
-                    //    string[] moveDirections = moveString.Split(',');
-
-                    //    for (int x = 1; x < moveDirections.Length; x++)
-                    //    {
-                    //        if (!moveDirections[x].Equals(moveDirections[x - 1]) && !moveDirections[x].Equals(""))
-                    //        {
-                    //            return false;
-                    //        }
-                    //    }
-
-                    //    return true;
-                    //}
-                    //return UnitMoveRules.GetRookRules().Contains(moveString);
-
                     return IsStraightLineAndInRules(UnitMoveRules.GetRookRules(), moveString);
                 case UnitType.Bishop:
-
                     return IsStraightLineAndInRules(UnitMoveRules.GetBishopRules(), moveString);
                 case UnitType.Pawn:
                     return IsStraightLineAndInRules(UnitMoveRules.GetPawnRules(), moveString);
@@ -209,73 +192,101 @@ namespace chessgame.engine
 
         private string CalculateMoveString(int[] fromTile, int[] toTile)
         {
+            //
+
+            int[] localFromTile = (int[])fromTile.Clone();
+            int[] localToTile = (int[])toTile.Clone();
+
+
+            // Moves are cut short because after every moveString append the first if statement should have been checked again.
+
             // Horse is a problem now, because it goes 1,1,3. 3 is not equal to 1.
             string moveString = String.Empty;
-            // If Y pos of fromTile is bigger than Y pos of to Tile AND x pos fromtile equals y pos toTile; direction is UP
-            if (fromTile[0] > toTile[0] && fromTile[1] == toTile[1])
-            {
-                for (int y1 = fromTile[0]; y1 > toTile[0]; y1--)
-                {
-                    moveString += "1,";
-                }
-            }
-            // If y pos of fromTIle is bigger then ypos of toTile AND X pos fromTile  is bigger than X pos toTile, direction is top left
-            if (fromTile[0] > toTile[0] && fromTile[1] > toTile[1])
-            {
-                for (int x1 = fromTile[1]; x1 > toTile[1]; x1--)
-                {
-                    moveString += "8,";
-                }
-            }
-            // If y pos of fromTIle is bigger then ypos of toTile AND X pos fromTile  is less than X pos toTile, direction is top right
-            if (fromTile[0] > toTile[0] && fromTile[1] < toTile[1])
-            {
-                for (int x1 = fromTile[1]; x1 < toTile[1]; x1++)
-                {
-                    moveString += "2,";
-                }
-            }
 
-            // If Y pos of fromTile is less than Y pos of toTile; direction is DOWN
-            if (fromTile[0] < toTile[0] && fromTile[1] == toTile[1])
+            while(true)
             {
-                for (int y1 = fromTile[0]; y1 < toTile[0]; y1++)
+                // If Y pos of fromTile is bigger than Y pos of to Tile AND x pos fromtile equals y pos toTile; direction is UP
+                if (localFromTile[0] > localToTile[0] && localFromTile[1] == localToTile[1])
                 {
-                    moveString += "5,";
+                    for (int y1 = localFromTile[0]; y1 > localToTile[0]; y1--)
+                    {
+                        moveString += "1,";
+                        localFromTile[0]--;
+                    }
                 }
-            }
-            // If Y pos of fromTile is less than Y pos of toTile AND x pos fromTIle is bigger than X pos toTile, direction is bottom left
-            if (fromTile[0] < toTile[0] && fromTile[1] > toTile[1])
-            {
-                for (int x1 = fromTile[1]; x1 > toTile[1]; x1--)
+                // If y pos of fromTIle is bigger then ypos of toTile AND X pos fromTile  is bigger than X pos toTile, direction is TOP LEFT
+                else if (localFromTile[0] > localToTile[0] && localFromTile[1] > localToTile[1])
                 {
-                    moveString += "6,";
+                    for (int x1 = localFromTile[1]; x1 > localToTile[1]; x1--)
+                    {
+                        moveString += "8,";
+                        localFromTile[0]--;
+                        localFromTile[1]--;
+                    }
                 }
-            }
-            // If y pos of fromTIle is bigger then ypos of toTile AND X pos fromTile  is less than X pos toTile, direction is bottom right
-            if (fromTile[0] < toTile[0] && fromTile[1] < toTile[1])
-            {
-                for (int x1 = fromTile[1]; x1 < toTile[1]; x1++)
+                // If y pos of fromTIle is bigger then ypos of toTile AND X pos fromTile  is less than X pos toTile, direction is TOP RIGHT
+                else if (localFromTile[0] > localToTile[0] && localFromTile[1] < localToTile[1])
                 {
-                    moveString += "4,";
+                    for (int x1 = localFromTile[1]; x1 < localToTile[1]; x1++)
+                    {
+                        moveString += "2,";
+                        localFromTile[0]--;
+                        localFromTile[1]++;
+                    }
                 }
-            }
 
-            // If X pos of fromTile is bigger than X pos of toTile; direction is RIGHT
-            if (fromTile[1] < toTile[1] && fromTile[0] == toTile[0])
-            {
-                for (int x1 = fromTile[1]; x1 < toTile[1]; x1++)
+                // If Y pos of fromTile is less than Y pos of toTile; direction is DOWN
+                else if (localFromTile[0] < localToTile[0] && localFromTile[1] == localToTile[1])
                 {
-                    moveString += "3,";
+                    for (int y1 = localFromTile[0]; y1 < localToTile[0]; y1++)
+                    {
+                        moveString += "5,";
+                        localFromTile[0]++;
+                    }
                 }
-            }
-
-            // If x pos of fromTile is less than X pos of toTile; direction is LEFT
-            if (fromTile[1] > toTile[1] && fromTile[0] == toTile[0])
-            {
-                for (int x1 = fromTile[1]; x1 > toTile[1]; x1--)
+                // If Y pos of fromTile is less than Y pos of toTile AND x pos fromTIle is bigger than X pos toTile, direction is BOTTOM LEFT
+                else if (localFromTile[0] < localToTile[0] && localFromTile[1] > localToTile[1])
                 {
-                    moveString += "7,";
+                    for (int x1 = localFromTile[1]; x1 > localToTile[1]; x1--)
+                    {
+                        moveString += "6,";
+                        localFromTile[0]++;
+                        localFromTile[1]--;
+                    }
+                }
+                // If y pos of fromTIle is bigger then ypos of toTile AND X pos fromTile  is less than X pos toTile, direction is BOTTOM RIGHT
+                else if (localFromTile[0] < localToTile[0] && localFromTile[1] < localToTile[1])
+                {
+                    for (int x1 = localFromTile[1]; x1 < localToTile[1]; x1++)
+                    {
+                        moveString += "4,";
+                        localFromTile[0]++;
+                        localFromTile[1]++;
+                    }
+                }
+
+                // If X pos of fromTile is bigger than X pos of toTile; direction is RIGHT
+                else if (localFromTile[1] < localToTile[1] && localFromTile[0] == localToTile[0])
+                {
+                    for (int x1 = localFromTile[1]; x1 < localToTile[1]; x1++)
+                    {
+                        moveString += "3,";
+                        localFromTile[1]++;
+                    }
+                }
+
+                // If x pos of fromTile is less than X pos of toTile; direction is LEFT
+                else if (localFromTile[1] > localToTile[1] && localFromTile[0] == localToTile[0])
+                {
+                    for (int x1 = localFromTile[1]; x1 > localToTile[1]; x1--)
+                    {
+                        moveString += "7,";
+                        localFromTile[1]--;
+                    }
+                } 
+                else
+                {
+                    break;
                 }
             }
             
