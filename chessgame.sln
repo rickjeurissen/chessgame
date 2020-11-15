@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chessgame.console", "chessg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chessgame.engine", "chessgame.engine\chessgame.engine.csproj", "{8563CDCE-FE47-459F-9035-C3C02F9A4A95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chessgame.wpf", "chessgame.wpf\chessgame.wpf.csproj", "{F54EFC6B-B745-40B3-A8C7-533F0BE14157}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8563CDCE-FE47-459F-9035-C3C02F9A4A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8563CDCE-FE47-459F-9035-C3C02F9A4A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8563CDCE-FE47-459F-9035-C3C02F9A4A95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F54EFC6B-B745-40B3-A8C7-533F0BE14157}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F54EFC6B-B745-40B3-A8C7-533F0BE14157}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F54EFC6B-B745-40B3-A8C7-533F0BE14157}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F54EFC6B-B745-40B3-A8C7-533F0BE14157}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

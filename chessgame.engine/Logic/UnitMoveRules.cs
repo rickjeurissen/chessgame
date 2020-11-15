@@ -8,8 +8,6 @@ namespace chessgame.engine.Logic
 {
     /*
      * This class is responsible for the move rules for every playable Unit
-     * The move string gets calculated where UP and DOWN are done FIRST. So a horse does 1,3,3 and NOT 3,3,1.
-     * If the rule is not correctly set, the horse cannot move
      */
     public static class UnitMoveRules
     {

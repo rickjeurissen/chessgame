@@ -104,7 +104,6 @@ namespace chessgame.engine
         /*
          * Expected tile pos format: B7, C2, A1 etc
          */
-
         public bool MoveUnit(string[] fromToTilePos)
         {
             int[] fromTile = ConvertStringToPos(fromToTilePos[0]);
@@ -154,13 +153,6 @@ namespace chessgame.engine
 
         private bool IsValidMove(int[] fromTile, string moveString)
         {
-            // Does the unit have the move in its rule set?
-            // Does the unti have space to move?
-            // for each move in move string
-            //      check the tile if its whitespace
-            //      if no whitespace has been found, clear!
-            // for horse, only check toTile
-
             Tile fromTileObject = TileMatrix[fromTile[0], fromTile[1]];
 
             switch (fromTileObject.Unit.Type)
@@ -168,22 +160,15 @@ namespace chessgame.engine
                 case UnitType.Horse:
                     return UnitMoveRules.GetHorseRules().Contains(moveString);
                 case UnitType.King:
-                    return IsMoveInStraightLineAndInRules(UnitMoveRules.GetKingRules(), moveString);
+                    return IsMoveInStraightLineAndInRules(UnitMoveRules.GetKingRules(), moveString) && IsMoveNotColliding(fromTile, moveString);
                 case UnitType.Queen:
-                    return IsMoveInStraightLineAndInRules(UnitMoveRules.GetQueenRules(), moveString);
+                    return IsMoveInStraightLineAndInRules(UnitMoveRules.GetQueenRules(), moveString) && IsMoveNotColliding(fromTile, moveString);
                 case UnitType.Rook:
-                    if (IsMoveInStraightLineAndInRules(UnitMoveRules.GetRookRules(), moveString) && IsMoveNotColliding(fromTile, moveString))
-                    {
-                        return true;
-                    } 
-                    else
-                    {
-                        return false;
-                    }
+                    return IsMoveInStraightLineAndInRules(UnitMoveRules.GetRookRules(), moveString) && IsMoveNotColliding(fromTile, moveString);
                 case UnitType.Bishop:
-                    return IsMoveInStraightLineAndInRules(UnitMoveRules.GetBishopRules(), moveString);
+                    return IsMoveInStraightLineAndInRules(UnitMoveRules.GetBishopRules(), moveString) && IsMoveNotColliding(fromTile, moveString);
                 case UnitType.Pawn:
-                    return IsMoveInStraightLineAndInRules(UnitMoveRules.GetPawnRules(), moveString);
+                    return IsMoveInStraightLineAndInRules(UnitMoveRules.GetPawnRules(), moveString) && IsMoveNotColliding(fromTile, moveString);
                 case UnitType.Whitespace:
                     return false;
                 default:
@@ -225,9 +210,7 @@ namespace chessgame.engine
             {
                 case Constants.DIRECTION_UP:
                     fromTile[0]--; // direction up equals matrix y minus one
-
                     // Strange observation: fromTile[0]-- inline in the return line is NOT the same as doing -- first, then the return??
-
                     return TileMatrix[fromTile[0], fromTile[1]];
                 case Constants.DIRECTION_UP_RIGHT:
                     fromTile[0]--;
@@ -249,11 +232,11 @@ namespace chessgame.engine
                     return TileMatrix[fromTile[0], fromTile[1]];
                 case Constants.DIRECTION_LEFT:
                     fromTile[1]--;
-                    return TileMatrix[fromTile[0], fromTile[1] - 1];
+                    return TileMatrix[fromTile[0], fromTile[1]];
                 case Constants.DIRECTION_UP_LEFT:
                     fromTile[0]--;
                     fromTile[1]--;
-                    return TileMatrix[fromTile[0] - 1, fromTile[1] - 1];
+                    return TileMatrix[fromTile[0], fromTile[1]];
                 default:
                     return TileMatrix[fromTile[0], fromTile[1]];
             }
