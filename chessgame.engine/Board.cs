@@ -126,7 +126,6 @@ namespace chessgame.engine
                 return true;
             } else
             {
-                Console.WriteLine("Move was not allowed");
                 return false;
             }
         }
@@ -137,23 +136,54 @@ namespace chessgame.engine
             string moveString = CalculateMoveString(fromTile, toTile);
 
             // Get the fromTile
-            Tile tileToCheck = TileMatrix[fromTile[0], fromTile[1]];
+            //Tile fromTileObject = TileMatrix[fromTile[0], fromTile[1]];
 
             // Check if this move is within the Unit's move set
-            switch (tileToCheck.Unit.Type)
+            bool isValidMove = IsValidMove(fromTile, moveString);
+
+            if (isValidMove)
+            {
+                
+                return true;
+            } 
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool IsValidMove(int[] fromTile, string moveString)
+        {
+            // Does the unit have the move in its rule set?
+            // Does the unti have space to move?
+            // for each move in move string
+            //      check the tile if its whitespace
+            //      if no whitespace has been found, clear!
+            // for horse, only check toTile
+
+            Tile fromTileObject = TileMatrix[fromTile[0], fromTile[1]];
+
+            switch (fromTileObject.Unit.Type)
             {
                 case UnitType.Horse:
                     return UnitMoveRules.GetHorseRules().Contains(moveString);
                 case UnitType.King:
-                    return IsStraightLineAndInRules(UnitMoveRules.GetKingRules(), moveString);
+                    return IsMoveInStraightLineAndInRules(UnitMoveRules.GetKingRules(), moveString);
                 case UnitType.Queen:
-                    return IsStraightLineAndInRules(UnitMoveRules.GetQueenRules(), moveString);
+                    return IsMoveInStraightLineAndInRules(UnitMoveRules.GetQueenRules(), moveString);
                 case UnitType.Rook:
-                    return IsStraightLineAndInRules(UnitMoveRules.GetRookRules(), moveString);
+                    if (IsMoveInStraightLineAndInRules(UnitMoveRules.GetRookRules(), moveString) && IsMoveNotColliding(fromTile, moveString))
+                    {
+                        return true;
+                    } 
+                    else
+                    {
+                        return false;
+                    }
                 case UnitType.Bishop:
-                    return IsStraightLineAndInRules(UnitMoveRules.GetBishopRules(), moveString);
+                    return IsMoveInStraightLineAndInRules(UnitMoveRules.GetBishopRules(), moveString);
                 case UnitType.Pawn:
-                    return IsStraightLineAndInRules(UnitMoveRules.GetPawnRules(), moveString);
+                    return IsMoveInStraightLineAndInRules(UnitMoveRules.GetPawnRules(), moveString);
                 case UnitType.Whitespace:
                     return false;
                 default:
@@ -161,7 +191,75 @@ namespace chessgame.engine
             }
         }
 
-        private bool IsStraightLineAndInRules(List<string> rules, string moveString)
+        private bool IsMoveNotColliding(int[] fromTile, string moveString)
+        {
+            int[] fromTileCopy = (int[])fromTile.Clone();
+
+            foreach (string direction in moveString.TrimEnd(',').Split(',')) // Why does the collision not work??
+            {
+                Tile nextTile = GetRelativeTileUsingDirection(fromTileCopy, direction);
+
+                if (nextTile.Unit.Type == UnitType.Whitespace)
+                {
+                    continue;
+                }
+                else
+                {
+                    Console.WriteLine("Not a valid move. Move collides with another unit.");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /*
+         * This method is responsible for finding the tile using the y and x coordinates and the direction relative to it
+         */
+        private Tile GetRelativeTileUsingDirection(int[] fromTile, string direction)
+        {
+            // Add the comma to the direction end to match constant
+            direction += ",";
+
+            switch (direction)
+            {
+                case Constants.DIRECTION_UP:
+                    fromTile[0]--; // direction up equals matrix y minus one
+
+                    // Strange observation: fromTile[0]-- inline in the return line is NOT the same as doing -- first, then the return??
+
+                    return TileMatrix[fromTile[0], fromTile[1]];
+                case Constants.DIRECTION_UP_RIGHT:
+                    fromTile[0]--;
+                    fromTile[1]++;
+                    return TileMatrix[fromTile[0], fromTile[1]];
+                case Constants.DIRECTION_RIGHT:
+                    fromTile[1]++;
+                    return TileMatrix[fromTile[0], fromTile[1]];
+                case Constants.DIRECTION_DOWN_RIGHT:
+                    fromTile[0]++;
+                    fromTile[1]++;
+                    return TileMatrix[fromTile[0], fromTile[1]];
+                case Constants.DIRECTION_DOWN:
+                    fromTile[0]++;
+                    return TileMatrix[fromTile[0], fromTile[1]];
+                case Constants.DIRECTION_DOWN_LEFT:
+                    fromTile[0]++;
+                    fromTile[1]--;
+                    return TileMatrix[fromTile[0], fromTile[1]];
+                case Constants.DIRECTION_LEFT:
+                    fromTile[1]--;
+                    return TileMatrix[fromTile[0], fromTile[1] - 1];
+                case Constants.DIRECTION_UP_LEFT:
+                    fromTile[0]--;
+                    fromTile[1]--;
+                    return TileMatrix[fromTile[0] - 1, fromTile[1] - 1];
+                default:
+                    return TileMatrix[fromTile[0], fromTile[1]];
+            }
+        }
+
+        private bool IsMoveInStraightLineAndInRules(List<string> rules, string moveString)
         {
             if (rules.Contains(moveString.Substring(0,2) + "*"))
             {
@@ -171,6 +269,8 @@ namespace chessgame.engine
                 {
                     if (!moveDirections[x].Equals(moveDirections[x - 1]) && !moveDirections[x].Equals(""))
                     {
+                        Console.WriteLine("Move is not a straight line or in rules.");
+
                         return false;
                     }
                 }
@@ -183,6 +283,7 @@ namespace chessgame.engine
             }
             else
             {
+                Console.WriteLine("Move is not a straight line or in rules.");
                 return false;
             }
         }
@@ -201,7 +302,7 @@ namespace chessgame.engine
                 {
                     for (int y1 = localFromTile[0]; y1 > localToTile[0]; y1--)
                     {
-                        moveString += "1,";
+                        moveString += Constants.DIRECTION_UP;
                         localFromTile[0]--;
                     }
                 }
@@ -210,7 +311,7 @@ namespace chessgame.engine
                 {
                     for (int x1 = localFromTile[1]; x1 > localToTile[1]; x1--)
                     {
-                        moveString += "8,";
+                        moveString += Constants.DIRECTION_UP_LEFT;
                         localFromTile[0]--;
                         localFromTile[1]--;
                     }
@@ -220,7 +321,7 @@ namespace chessgame.engine
                 {
                     for (int x1 = localFromTile[1]; x1 < localToTile[1]; x1++)
                     {
-                        moveString += "2,";
+                        moveString += Constants.DIRECTION_UP_RIGHT;
                         localFromTile[0]--;
                         localFromTile[1]++;
                     }
@@ -231,7 +332,7 @@ namespace chessgame.engine
                 {
                     for (int y1 = localFromTile[0]; y1 < localToTile[0]; y1++)
                     {
-                        moveString += "5,";
+                        moveString += Constants.DIRECTION_DOWN;
                         localFromTile[0]++;
                     }
                 }
@@ -240,7 +341,7 @@ namespace chessgame.engine
                 {
                     for (int x1 = localFromTile[1]; x1 > localToTile[1]; x1--)
                     {
-                        moveString += "6,";
+                        moveString += Constants.DIRECTION_DOWN_LEFT;
                         localFromTile[0]++;
                         localFromTile[1]--;
                     }
@@ -250,7 +351,7 @@ namespace chessgame.engine
                 {
                     for (int x1 = localFromTile[1]; x1 < localToTile[1]; x1++)
                     {
-                        moveString += "4,";
+                        moveString += Constants.DIRECTION_DOWN_RIGHT;
                         localFromTile[0]++;
                         localFromTile[1]++;
                     }
@@ -261,7 +362,7 @@ namespace chessgame.engine
                 {
                     for (int x1 = localFromTile[1]; x1 < localToTile[1]; x1++)
                     {
-                        moveString += "3,";
+                        moveString += Constants.DIRECTION_RIGHT;
                         localFromTile[1]++;
                     }
                 }
@@ -271,7 +372,7 @@ namespace chessgame.engine
                 {
                     for (int x1 = localFromTile[1]; x1 > localToTile[1]; x1--)
                     {
-                        moveString += "7,";
+                        moveString += Constants.DIRECTION_LEFT;
                         localFromTile[1]--;
                     }
                 } 
