@@ -195,7 +195,7 @@ namespace chessgame.engine
         {
             int[] fromTileCopy = (int[])fromTile.Clone();
 
-            foreach (string direction in moveString.TrimEnd(',').Split(',')) // Why does the collision not work??
+            foreach (string direction in moveString.TrimEnd(',').Split(','))
             {
                 Tile nextTile = GetRelativeTileUsingDirection(fromTileCopy, direction);
 
