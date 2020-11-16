@@ -158,7 +158,7 @@ namespace chessgame.engine
             switch (fromTileObject.Unit.Type)
             {
                 case UnitType.Horse:
-                    return UnitMoveRules.GetHorseRules().Contains(moveString);
+                    return IsMoveInRules(UnitMoveRules.GetHorseRules(), moveString) && IsMoveNotColliding(fromTile, moveString);
                 case UnitType.King:
                     return IsMoveInStraightLineAndInRules(UnitMoveRules.GetKingRules(), moveString) && IsMoveNotColliding(fromTile, moveString);
                 case UnitType.Queen:
@@ -176,26 +176,60 @@ namespace chessgame.engine
             }
         }
 
+        /*
+         * Check if the move is within its ruleset. This method is probably only for the horse, because it does not have to
+         * travel in a straight line.
+         */
+        private bool IsMoveInRules(List<string> rules, string moveString)
+        {
+
+        }
+
         private bool IsMoveNotColliding(int[] fromTile, string moveString)
         {
+            bool isHorse = TileMatrix[fromTile[0], fromTile[1]].Unit.Type == UnitType.Horse;
+
             int[] fromTileCopy = (int[])fromTile.Clone();
 
-            foreach (string direction in moveString.TrimEnd(',').Split(','))
+            // If not a horse, check for every step if it collides with another unit other that whitespace
+            if (!isHorse)
             {
-                Tile nextTile = GetRelativeTileUsingDirection(fromTileCopy, direction);
+                foreach (string direction in moveString.TrimEnd(',').Split(','))
+                {
+                    Tile nextTile = GetRelativeTileUsingDirection(fromTileCopy, direction);
 
-                if (nextTile.Unit.Type == UnitType.Whitespace)
-                {
-                    continue;
+                    if (nextTile.Unit.Type == UnitType.Whitespace)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not a valid move. Move collides with another unit.");
+                        return false;
+                    }
                 }
-                else
+
+                return true;
+            } 
+            else
+            {
+                // For the horse, move trough the directions but check only at the end if the move is valid
+                // Horses can jump over other units
+                string[] moveStringSplitted = moveString.TrimEnd(',').Split(',');
+
+                for (int x = 0; x < moveStringSplitted.Length; x++)
                 {
-                    Console.WriteLine("Not a valid move. Move collides with another unit.");
-                    return false;
+                    Tile nextTile = GetRelativeTileUsingDirection(fromTileCopy, moveStringSplitted[x]);
+
+                    if (nextTile.Unit.Type == UnitType.Whitespace && x == moveString.Length - 1)
+                    {
+                        return true;
+                    }
                 }
+
+                return false;
+
             }
-
-            return true;
         }
 
         /*
