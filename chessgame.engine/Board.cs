@@ -182,7 +182,7 @@ namespace chessgame.engine
          */
         private bool IsMoveInRules(List<string> rules, string moveString)
         {
-
+            return rules.Contains(moveString);
         }
 
         private bool IsMoveNotColliding(int[] fromTile, string moveString)
@@ -221,12 +221,13 @@ namespace chessgame.engine
                 {
                     Tile nextTile = GetRelativeTileUsingDirection(fromTileCopy, moveStringSplitted[x]);
 
-                    if (nextTile.Unit.Type == UnitType.Whitespace && x == moveString.Length - 1)
+                    if (nextTile.Unit.Type == UnitType.Whitespace && x == moveStringSplitted.Length - 1)
                     {
                         return true;
                     }
                 }
 
+                Console.WriteLine("Not a valid move. Move collides with another unit.");
                 return false;
 
             }

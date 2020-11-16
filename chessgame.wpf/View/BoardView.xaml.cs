@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace chessgame.wpf
+namespace chessgame.wpf.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for BoardView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class BoardView : UserControl
     {
-        public MainWindow()
+        public BoardView()
         {
             InitializeComponent();
         }
