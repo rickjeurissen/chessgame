@@ -1,2 +1,1 @@
-This project is a hobby project. I got inspired by the Netflix series Queens Gambit and started playing chess. 
-Eventually I wanted to challenge myself and program my own chess game. The goal of this project is to create a fully working chess engine with a simple console UI to be able to play. Long term goals are writing a WPF with better graphics and drag&drop chest pieces. Also I would like to use AI to make a bot to play against with multiple difficulties.
+This project is nowhere near finished. Read the wiki for some context about this project.
