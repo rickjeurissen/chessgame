@@ -6,9 +6,9 @@
              xmlns:s="https://github.com/canton7/Stylet"
              xmlns:local="clr-namespace:chessgame.wpf.View"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="800" Background="WhiteSmoke" ResizeMode="NoResize" Width="800" Height="800">
+             d:DesignHeight="560" d:DesignWidth="580" Background="RosyBrown" Width="1000" Height="565" MinHeight="565" MinWidth="542">
     <Grid>
-        <Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions >
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
@@ -21,14 +21,12 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <Border
-            BorderBrush="LightGray"
-            BorderThickness="1"
-            Grid.Column="2"
-            Grid.Row="2">
             <ContentControl
+                Grid.Column="2"
+                Grid.Row="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 s:View.Model="{Binding ActiveItem}" />
-            </Border> 
 
     </Grid>
 </Window>

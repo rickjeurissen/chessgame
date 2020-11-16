@@ -9,5 +9,6 @@ namespace chessgame.wpf.ViewModel
 {
     public class BoardViewModel : Screen
     {
+        
     }
 }

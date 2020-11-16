@@ -6,8 +6,36 @@
              xmlns:s="https://github.com/canton7/Stylet"
              xmlns:local="clr-namespace:chessgame.wpf.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="Gray">
-    <Grid>
+             d:DesignHeight="500" d:DesignWidth="500" Background="LightGray">
+    <Grid x:Name="grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3"/>
             
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3"/>
+        </Grid.RowDefinitions>
+
     </Grid>
 </UserControl>

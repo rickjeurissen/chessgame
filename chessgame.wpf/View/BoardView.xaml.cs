@@ -23,6 +23,45 @@ namespace chessgame.wpf.View
         public BoardView()
         {
             InitializeComponent();
+
+            InitializeBoard();
+        }
+
+        private void InitializeBoard()
+        {
+            bool white = true;
+
+            for (int y = 0; y < 8; y++)
+            {
+                if (y % 2 == 0)
+                {
+                    white = true;
+                }
+                else
+                {
+                    white = false;
+                }
+                for (int x = 0; x < 8; x++)
+                {
+                    Rectangle rect = new Rectangle();
+
+                    if (white)
+                    {
+                        rect.Fill = Brushes.WhiteSmoke;
+                        white = false;
+                    }
+                    else
+                    {
+                        rect.Fill = Brushes.SandyBrown;
+                        white = true;
+                    }
+
+                    Grid.SetRow(rect, y + 1);
+                    Grid.SetColumn(rect, x + 1);
+
+                    grid.Children.Add(rect);
+                }
+            }
         }
     }
 }
