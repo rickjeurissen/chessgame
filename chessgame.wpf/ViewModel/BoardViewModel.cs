@@ -19,15 +19,20 @@ namespace chessgame.wpf.ViewModel
         public BoardViewModel()
         {
             SetupNewGame();
-
-            board.MoveUnit(new string[] { "B8", "C6" });
-            RedrawGameState();
         }
 
         private void SetupNewGame()
         {
             board = new Board();
             board.InitializeGame();
+
+            MoveUnit("B8", "C6");
+        }
+
+        private void MoveUnit(string fromTile, string toTile)
+        {
+            board.MoveUnit(new string[] { fromTile, toTile });
+            RedrawGameState();
         }
 
         private void RedrawGameState()
