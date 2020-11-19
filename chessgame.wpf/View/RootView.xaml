@@ -5,8 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:s="https://github.com/canton7/Stylet"
              xmlns:local="clr-namespace:chessgame.wpf.View"
+             
              mc:Ignorable="d" 
-             d:DesignHeight="560" d:DesignWidth="580" Background="RosyBrown" Width="1000" Height="565" MinHeight="565" MinWidth="542">
+             d:DesignHeight="560" d:DesignWidth="580" Background="IndianRed" Width="1000" Height="580" MinHeight="580" MinWidth="542">
+
     <Grid>
         <Grid.ColumnDefinitions >
             <ColumnDefinition Width="20"/>
@@ -27,6 +29,5 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 s:View.Model="{Binding ActiveItem}" />
-
     </Grid>
 </Window>

@@ -60,6 +60,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Model\ChessPiece.cs" />
+    <Compile Include="Model\ChessPieceTypes.cs" />
     <Compile Include="ViewModel\BoardViewModel.cs" />
     <Compile Include="ViewModel\RootViewModel.cs" />
     <Compile Include="View\BoardView.xaml.cs">
@@ -111,7 +113,46 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\" />
+    <Resource Include="Model\BlackBishop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\chessgame.engine\chessgame.engine.csproj">
+      <Project>{8563CDCE-FE47-459F-9035-C3C02F9A4A95}</Project>
+      <Name>chessgame.engine</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Model\BlackKing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Model\BlackKnight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Model\BlackPawn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Model\BlackQueen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Model\BlackTower.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Model\WhiteBishop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Model\WhiteKing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Model\WhiteKnight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Model\WhitePawn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Model\WhiteQueen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Model\WhiteTower.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

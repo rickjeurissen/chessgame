@@ -1,5 +1,7 @@
-﻿using System;
+﻿using chessgame.wpf.Model;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,46 +22,30 @@ namespace chessgame.wpf.View
     /// </summary>
     public partial class BoardView : UserControl
     {
+        private const int RowCount = 8;
+        private const int ColCount = 8;
+
         public BoardView()
         {
             InitializeComponent();
 
-            InitializeBoard();
+            CreateBoard();
+            //DataContext = this; // remove?
         }
 
-        private void InitializeBoard()
+        private void CreateBoard()
         {
-            bool white = true;
-
-            for (int y = 0; y < 8; y++)
+            for (var row = 0; row < RowCount; row++)
             {
-                if (y % 2 == 0)
+                var isBlack = row % 2 == 1;
+                for (int col = 0; col < ColCount; col++)
                 {
-                    white = true;
-                }
-                else
-                {
-                    white = false;
-                }
-                for (int x = 0; x < 8; x++)
-                {
-                    Rectangle rect = new Rectangle();
-
-                    if (white)
+                    var square = new Rectangle
                     {
-                        rect.Fill = Brushes.WhiteSmoke;
-                        white = false;
-                    }
-                    else
-                    {
-                        rect.Fill = Brushes.SandyBrown;
-                        white = true;
-                    }
-
-                    Grid.SetRow(rect, y + 1);
-                    Grid.SetColumn(rect, x + 1);
-
-                    grid.Children.Add(rect);
+                        Fill = isBlack ? Brushes.Black : Brushes.White
+                    };
+                    SquaresGrid.Children.Add(square);
+                    isBlack = !isBlack;
                 }
             }
         }

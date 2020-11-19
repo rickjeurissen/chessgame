@@ -5,8 +5,11 @@
              xmlns:local="clr-namespace:chessgame.wpf"
              xmlns:s="https://github.com/canton7/Stylet">
     <Application.Resources>
+        
+        
         <s:ApplicationLoader>
-
+            
+            
             <s:ApplicationLoader.Bootstrapper>
                 <local:Bootstrapper/>
             </s:ApplicationLoader.Bootstrapper>

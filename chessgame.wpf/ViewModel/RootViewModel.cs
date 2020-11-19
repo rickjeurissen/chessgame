@@ -19,6 +19,7 @@ namespace chessgame.wpf.ViewModel
         private void InitialiseBoardView()
         {
             BoardViewModel boardVM = boardViewFactory();
+            //boardVM
             this.ActivateItem(boardVM);
         }
     }

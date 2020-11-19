@@ -5,37 +5,59 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:s="https://github.com/canton7/Stylet"
              xmlns:local="clr-namespace:chessgame.wpf.View"
+             xmlns:local2="clr-namespace:chessgame.wpf.Model"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="500" Background="LightGray">
-    <Grid x:Name="grid">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3"/>
-            <ColumnDefinition Width="60"/>
-            <ColumnDefinition Width="60"/>
-            <ColumnDefinition Width="60"/>
-            <ColumnDefinition Width="60"/>
-            <ColumnDefinition Width="60"/>
-            <ColumnDefinition Width="60"/>
-            <ColumnDefinition Width="60"/>
-            <ColumnDefinition Width="60"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3"/>
-            
-        </Grid.ColumnDefinitions>
+             Width="500" Height="500" UseLayoutRounding="False" Background="WhiteSmoke">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="3"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="3"/>
-        </Grid.RowDefinitions>
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type local2:ChessPiece}">
+            <Image 
+                Source="{Binding ImageSource}"
+                Width="48"
+                Height="48"
+                RenderOptions.BitmapScalingMode="Fant"
+                />
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <Grid>
+        <UniformGrid Rows="8" Columns="8" Opacity=".5" x:Name="SquaresGrid"/>
+        <ItemsControl ItemsSource="{Binding Pieces}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid IsItemsHost="True">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
 
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Grid.Row" Value="{Binding Row}"/>
+                    <Setter Property="Grid.Column" Value="{Binding Column}"/>
+                </Style>
+                
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+        
     </Grid>
 </UserControl>
